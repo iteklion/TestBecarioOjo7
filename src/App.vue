@@ -2,7 +2,7 @@
   <div class="container-index">
     <input maxlength="5" type="text" v-on:input="ctrlInput($event)" v-model="codigoPostal">
     <input :disabled=" codigoPostal.length < 5 ? true : false " type="button" value="Buscar" v-on:click="click()">
-    <div v-if="x">
+    <div v-if="verSelect">
       <select>
         <option value="">Uno</option>
         <option value="">Uno</option>
