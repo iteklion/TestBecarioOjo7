@@ -48,9 +48,10 @@ export default {
       })
     },
     ctrlInput (event) {
-      event.target.value = event.target.value.replace(/\D/g, '')
+      this.codigoPostal = event.target.value.replace(/\D/g, '')
       if (event.target.value.length < 5) {
         this.verSelect = false
+        this.error = false
       }
     },
     click () {
