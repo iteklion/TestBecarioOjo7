@@ -1,20 +1,22 @@
 <template>
   <div class="container-index">
+    <input maxlength="5" type="text" v-on:input="ctrlInput($event)" v-model="codigoPostal">
+    <input :disabled=" codigoPostal.length < 5 ? true : false " type="button" value="Buscar" v-on:click="click()">
     <div class="error" v-if="error">
       Codigo postal no encontrado
     </div>
-    <input maxlength="5" type="text" v-on:input="ctrlInput($event)" v-model="codigoPostal">
-    <input :disabled=" codigoPostal.length < 5 ? true : false " type="button" value="Buscar" v-on:click="click()">
     <div v-if="verSelect">
       <select name="Estado">
         <option value="" selected>Seleccione una opción</option>
-
+        <option v-for="estado in estados" :key="estado" :value="estado">{{estado}}</option>
       </select>
       <select name="municipio">
         <option value="" selected>Seleccione una opción</option>
+        <option v-for="municipio in municipios" :key="municipio" :value="municipio">{{municipio}}</option>
       </select>
       <select name="colonia">
         <option value="" selected>Seleccione una opción</option>
+        <option v-for="colonia in colonias" :key="colonia" :value="colonia">{{colonia}}</option>
       </select>
     </div>
   </div>
@@ -58,12 +60,17 @@ export default {
       if (response.status === 200) {
         this.verSelect = true
         this.buildResponse(response.data.data)
-      } else if (response.status === 204) {
+      } else if (response.status === 202) {
         this.error = true
       }
     },
     buildResponse (data) {
-      console.log(data)
+      const estado = data.map(res => (res.estado))
+      const municipio = data.map(res => (res.mnpio))
+      const colonias = data.map(res => (res.colonia))
+      this.estados = [...new Set(estado)]
+      this.municipios = [...new Set(municipio)]
+      this.colonias = [...new Set(colonias)]
     }
   }
 
